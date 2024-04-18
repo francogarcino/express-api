@@ -1,0 +1,8 @@
+# node
+/node_modules
+
+# jetbrains
+/.idea
+
+# enviroment
+.env
