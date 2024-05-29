@@ -2,6 +2,6 @@
     "version": 2,
     "rewrites": [
         {"source": "/(.*)",
-         "destination": "www"}
+         "destination": "./bin/www"}
     ]
 }
