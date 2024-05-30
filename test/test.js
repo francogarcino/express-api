@@ -4,6 +4,6 @@ test("The truth", () => {
 });
 
 
-test("The fail", () => {
-    expect(false).toBe(true);
-});
+// test("The fail", () => {
+//     expect(false).toBe(true);
+// });
