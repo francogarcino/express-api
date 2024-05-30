@@ -1,7 +1,0 @@
-// #!/usr/bin/env node
-//
-// /* Dependencias de modulo */
-// var app = require('../app');
-// var http = require('http');
-//
-// /* Obtencion de puerto */
