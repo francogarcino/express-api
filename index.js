@@ -23,9 +23,7 @@ const Android = require('./models/android.model');
 const http = require("http");
 
 router.get('/', function(req, res) {
-    res.json({
-        text: "Todo ok!"
-    })
+    res.json("Secret")
 });
 
 router.get('/all', async (req, res) => {
