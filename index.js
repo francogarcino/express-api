@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const logger = require('morgan');
+const cors = require('cors');
 
 formatDate = (timestamp) => {
     const dateObj = new Date(timestamp);
@@ -19,6 +20,7 @@ const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors())
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
