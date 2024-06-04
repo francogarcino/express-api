@@ -67,16 +67,24 @@ router.get('/serial/:serial_name', async (req, res) => {
     }
 })
 
-router.post('/create/:serial_name', async (req, res) => {
+router.post('/registrar/:serial_name', async (req, res) => {
     const name = req.params.serial_name
     try {
-        const exists = await Android.exists({ serial_name: name })
-        if (exists) {
+        const trimmed = name.trim()
+        if (trimmed.length > 20 || trimmed.length < 1) {
             return res.status(400).json({
-                "msg_from_bunker" : "Ya se registro previamente al androide " +name + " en la base"
+                "msg_from_bunker" : "La consciencia debe a persistir debe tener una longitud de max. 20 caracteres"
             })
         }
-        const androide = Android({ serial_name: name })
+
+        const exists = await Android.exists({ serial_name: trimmed })
+        if (exists) {
+            return res.status(400).json({
+                "msg_from_bunker" : "Ya se registro previamente al androide " + trimmed + " en la base"
+            })
+        }
+
+        const androide = Android({ serial_name: trimmed })
         await androide.save()
         res.status(201).json({ ...androide.toObject(), request_timestamp: formatDate(androide.request_timestamp) })
     } catch (error) {
