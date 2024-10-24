@@ -31,62 +31,62 @@ mongoose.connect(process.env.MONGODB_URI)
     });
 
 const router = express.Router()
-const Android = require('./models/android.model');
+const Spirit = require('./models/current.model');
 const http = require("http");
 
 router.get('/', function(req, res) {
     res.status(200).json("Connected with e[P]ers")
 });
 
-router.get('/androides', async (req, res) => {
+router.get('/espiritus', async (req, res) => {
     try {
-        const response = await Android.find({})
-        const androides = response.map(doc => {
-            return { ...doc.toObject(), request_timestamp: formatDate(doc.request_timestamp) }
+        const response = await Spirit.find({})
+        const espiritus = response.map(doc => {
+            return { ...doc.toObject(), found_at: formatDate(doc.found_at) }
         })
-        res.status(200).json(androides)
+        res.status(200).json(espiritus)
     } catch (error) {
-        res.status(500).json({ "msg_from_bunker" : error.message })
+        res.status(500).json({ "fallo_astral" : error.message })
     }
 })
 
-router.get('/serial/:serial_name', async (req, res) => {
+router.get('/:name', async (req, res) => {
     try {
-        const name = req.params.serial_name
-        const androide = await Android.findOne({
-            serial_name: name
+        const name = req.params.name
+        const espiritu = await Spirit.findOne({
+            name: name
         })
-        if (!androide) {
-            return res.status(404).json({ "msg_from_bunker": "El androide " + name + "no esta registrado"});
+        if (!espiritu) {
+            return res.status(404).json({ "fallo_astral": "El espiritu " + name + " no se invocó"});
         }
         res.status(200).json(
-            { ...androide.toObject(), request_timestamp: formatDate(androide.request_timestamp) }
+            { ...espiritu.toObject(), found_at: formatDate(espiritu.found_at) }
         )
     } catch (error) {
-        res.status(500).json({ "msg_from_bunker": error.message });
+        res.status(500).json({ "fallo_astral": error.message });
     }
 })
 
-router.post('/registrar/:serial_name', async (req, res) => {
-    const name = req.params.serial_name
+router.post('/descubrir/:name', async (req, res) => {
+    const name = req.params.name
     try {
         const trimmed = name.trim()
         if (trimmed.length > 20 || trimmed.length < 1) {
             return res.status(400).json({
-                "msg_from_bunker" : "La consciencia debe a persistir debe tener una longitud de max. 20 caracteres"
+                "fallo_astral" : "Un espiritu puede llamarse con un maximo de 20 caracteres"
             })
         }
 
-        const exists = await Android.exists({ serial_name: trimmed })
+        const exists = await Spirit.exists({ name: trimmed })
         if (exists) {
             return res.status(400).json({
-                "msg_from_bunker" : "Ya se registro previamente al androide " + trimmed + " en la base"
+                "fallo_astral" : "Ya existe el espiritu " + trimmed + " en la base"
             })
         }
 
-        const androide = Android({ serial_name: trimmed })
-        await androide.save()
-        res.status(201).json({ ...androide.toObject(), request_timestamp: formatDate(androide.request_timestamp) })
+        const spirit = Spirit({ name: trimmed })
+        await spirit.save()
+        res.status(201).json({ ...spirit.toObject(), found_at: formatDate(spirit.found_at) })
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
