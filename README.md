@@ -6,9 +6,8 @@ Repositorio con una pequeña API para deployear en [Vercel](https://vercel.com) 
 | Metodo | Path                     | Contenido                                              |
 |--------|--------------------------|--------------------------------------------------------|
 | `GET`  | `/`                      | Muestra un mensaje default                             |
-| `POST` | `/registrar/:serialName` | Registra a un androide con el nombre `serialName` dado |
-| `GET`  | `/androides`             | Muestra todos los androides registrados de momento     |
-| `GET`  | `/serial/:serialName`    | Muestra al androide registrado bajo ese `serialName`   |
+| `POST` | `/descubrir/:nombre`     | Persiste un espiritu con el `nombre` dado              |
+| `GET`  | `/espiritus`             | Muestra todos los espiritus registrados de momento     |
 
 ### 🛜 Objetivo del taller
 
